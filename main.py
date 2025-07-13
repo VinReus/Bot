@@ -13,19 +13,30 @@ async def handle_buongiorno(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.message and update.message.text.lower() == "buongiorno":
         await update.message.reply_animation(GIF_URL)
 
+import os
+
 async def handle_bro(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if update.message and update.message.text.lower() == "bro":
-        print("DEBUG: Current dir:", os.getcwd())
-        print("DEBUG: Files here:", os.listdir())
-        if "bro.jpg" not in os.listdir():
-            await update.message.reply_text("Errore: bro.jpg non trovato!")
-            return
-        try:
-            with open("bro.jpg", "rb") as photo:
-                await context.bot.send_photo(chat_id=update.effective_chat.id, photo=photo)
-        except Exception as e:
-            await update.message.reply_text(f"Errore nell'inviare la foto: {e}")
-            
+    print("DEBUG: handle_bro triggered")
+    if update.message:
+        print(f"DEBUG: Received text: {update.message.text}")
+        if update.message.text.lower() == "bro":
+            print("DEBUG: Trying to send photo...")
+            print("DEBUG: Current dir:", os.getcwd())
+            print("DEBUG: Files here:", os.listdir())
+            if "bro.jpg" not in os.listdir():
+                await update.message.reply_text("Errore: bro.jpg non trovato!")
+                return
+            try:
+                with open("bro.jpg", "rb") as photo:
+                    await context.bot.send_photo(chat_id=update.effective_chat.id, photo=photo)
+                print("DEBUG: Photo sent!")
+            except Exception as e:
+                await update.message.reply_text(f"Errore nell'inviare la foto: {e}")
+                print(f"DEBUG: Exception: {e}")
+    else:
+        print("DEBUG: update.message is None")
+        
+         
 
 async def handle_pika(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Pikachu! ⚡")
