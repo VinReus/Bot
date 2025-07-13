@@ -15,8 +15,17 @@ async def handle_buongiorno(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def handle_bro(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.message and update.message.text.lower() == "bro":
-        with open("bro.jpg", "rb") as photo:
-            await context.bot.send_photo(chat_id=update.effective_chat.id, photo=photo)
+        print("DEBUG: Current dir:", os.getcwd())
+        print("DEBUG: Files here:", os.listdir())
+        if "bro.jpg" not in os.listdir():
+            await update.message.reply_text("Errore: bro.jpg non trovato!")
+            return
+        try:
+            with open("bro.jpg", "rb") as photo:
+                await context.bot.send_photo(chat_id=update.effective_chat.id, photo=photo)
+        except Exception as e:
+            await update.message.reply_text(f"Errore nell'inviare la foto: {e}")
+            
 
 async def handle_pika(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Pikachu! ⚡")
